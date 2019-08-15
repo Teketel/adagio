@@ -21,7 +21,7 @@ from sklearn.model_selection import GridSearchCV
 class Analysis:
     """ A class to run a classification experiment """
 
-    def __init__(self, dirs, labels, split, max_files=0, max_node_size=0, 
+    def __init__(self, dirs=[], labels=[], split=None, max_files=0, max_node_size=0, 
                  precomputed_matrix="", y="", fnames=""):
         """ 
         The Analysis class allows to load sets of pickled graoh objects
@@ -79,7 +79,7 @@ class Analysis:
             self.fnames = np.load(fnames)
             print("[*] file names loaded")
 
-        else:
+        elif dirs and labels:
             # loop over dirs
             for d in zip(dirs, labels):
                 files = self.read_files(d[0], "fcg", max_files)
@@ -124,7 +124,14 @@ class Analysis:
             print("[*] Stacking feature vectors...")
             self.X = np.array(self.X, dtype=np.int16)
             print("[*] Converting features vectors to binary...")
-            self.X, self.b = ml.make_binary(self.X) 
+            self.X, self.b = ml.make_binary(self.X)
+        else:
+            print("[!] Don't forget to initialize datasets.")
+
+    def one_hot_encode_x(self):
+        self.X = np.array(self.X, dtype=np.int16)
+        print("[*] Converting features vectors to binary...")
+        self.X, self.b = ml.make_binary(self.X)
 
     ################################
     # Data Preprocessing functions #
