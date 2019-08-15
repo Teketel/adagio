@@ -390,7 +390,7 @@ def make_binary(X):
     m = np.max(X)
     X_bin = sp.sparse.lil_matrix((N, M * m), dtype=np.int8)
 
-    for i in tqdm(total=N, desc="Making X binary"):
+    for i in tqdm(range(N), desc="Making X binary"):
         for j in range(M):
             n = X[i, j]
             X_bin[i, m * j:(m * j + n)] = 1
